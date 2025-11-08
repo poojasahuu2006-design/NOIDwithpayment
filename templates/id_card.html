@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ app_name }} | ID Card</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    {% if error %}
+      <div class="error">{{ error }}</div>
+      <div class="back-link"><a href="/">Go back</a></div>
+    {% else %}
+      <div class="idcard-wrapper">
+        <div class="idcard" id="id-card">
+          <div class="idcard-top">
+            <div class="idcard-logo left">
+              <img src="{{ url_for('static', filename='photos/NOID.jpg') }}" alt="NOID Logo" onerror="this.onerror=null; this.src='{{ url_for('static', filename='NOID.jpg') }}'" />
+            </div>
+            <div class="idcard-title">
+              <h1>ST. JOHN COLLEGE</h1>
+              <h2>OF ENGINEERING &amp; MANAGEMENT</h2>
+              <p>(AUTONOMOUS)</p>
+              <small>St. John Technical and Educational Campus, Vevoor, Manor Road, Palghar (E), Dist. Palghar - 401404, Maharashtra</small>
+            </div>
+            <div class="idcard-logo right">
+              <img src="{{ url_for('static', filename='photos/aldel.jpg') }}" alt="ALDEL EDUCATION TRUST" onerror="this.onerror=null; this.src='{{ url_for('static', filename='aldel.jpg') }}'" />
+            </div>
+          </div>
+          <div class="idcard-banner">STUDENT</div>
+          <div class="idcard-body">
+            <div class="photo">
+              <img src="{{ student.photo_url }}" alt="{{ student.name }}" />
+            </div>
+            <div class="details">
+              <div class="name">{{ student.name|upper }}</div>
+              <div class="branch">{{ student.department|upper }}</div>
+              <div class="row"><span>PID NO.</span><b>{{ student.pid }}</b></div>
+              <div class="row"><span>Course</span><b>{{ student.course }}</b></div>
+              <div class="row"><span>Year</span><b>SE</b></div>
+              <div class="row"><span>DOB</span><b>{{ student.dob or '-' }}</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="back-link"><a href="/">Search another PID</a></div>
+    {% endif %}
+  </div>
+</body>
+</html>
+

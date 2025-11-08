@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ app_name }} | Enter PID</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <div class="outer-card">
+      <div class="header">
+        <img class="logo" src="{{ url_for('static', filename='photos/NOID.jpg') }}" alt="NOID Logo"
+             onerror="this.onerror=null; this.src='{{ url_for('static', filename='NOID.jpg') }}'" />
+        <h1>{{ app_name }}</h1>
+        <p class="subtitle">Dynamic ID Card Generator</p>
+      </div>
+
+      <form class="pid-form" action="/generate" method="POST">
+        <label for="pid">Enter PID</label>
+        <input id="pid" name="pid" type="text" placeholder="EU1244003" required />
+        <button type="submit">Generate ID Card</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
