@@ -1,13 +1,9 @@
 import os
 from typing import Dict, Optional
-
 import mysql.connector
 from mysql.connector import errorcode
 from flask import Flask, g, render_template, request, url_for
-
-
 APP_NAME = "NOID"
-
 # MySQL credentials (you can set env vars or fallback to defaults)
 MYSQL_CONFIG = {
     "host": os.getenv("MYSQL_HOST", "localhost"),
@@ -179,7 +175,7 @@ def ensure_database_and_tables() -> None:
 ('EU1244030', 'Komal Rawat', 'B.Tech', 'Information Technology', '2006-06-21', 'komal@example.com', '9000000040', 'komal.jpg'),
 ('EU1244003', 'Pooja Sahu', 'B.Tech', 'Information Technology', '2006-10-11', 'pooja@example.com', '9000000041', 'Pooja.jpg'),
 ('EU1244043', 'Om Salvi', 'B.Tech', 'Information Technology', '2005-10-10', 'om@example.com', '9000000042', 'om.jpg'),
-('EU1244007', 'Bhumi Sankhe', 'B.Tech', 'Information Technology', '2006-07-22', 'bhumi@example.com', '9000000043', 'bhumi.jpg'),
+('EU1244007', 'Bhumi Sankhe', 'B.Tech', 'Information Technology', '2006-07-22', 'bhumi@example.com', '9000000043', 'Bhumi.jpeg'),
 ('EU1244002', 'Parth Satve', 'B.Tech', 'Information Technology', '2005-03-16', 'parthsatre@example.com', '9000000044', 'parthsatre.jpg'),
 ('EU1244014', 'Parth Save', 'B.Tech', 'Information Technology', '2005-08-09', 'parthsave@example.com', '9000000045', 'parthsave.jpg'),
 ('EU1244048', 'Dhwani Savani', 'B.Tech', 'Information Technology', '2006-02-14', 'dhwani@example.com', '9000000046', 'dhruvani.jpg'),
