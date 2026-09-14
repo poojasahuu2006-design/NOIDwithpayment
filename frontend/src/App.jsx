@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PidSearch from './components/PidSearch';
 import IdCard from './components/IdCard';
+import FooterPolicy from './components/FooterPolicy';
 import './index.css';
 
 export default function App() {
@@ -150,6 +151,7 @@ export default function App() {
           onResetPaymentPrompt={() => setPaymentRequiredInfo(null)}
         />
       )}
+      <FooterPolicy />
     </div>
   );
 }
