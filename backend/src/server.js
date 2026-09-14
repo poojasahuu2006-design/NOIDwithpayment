@@ -23,6 +23,11 @@ const {
   getRazorpayPaymentStatus,
   RAZORPAY_KEY_ID,
 } = require('./services/razorpayService');
+const {
+  createAndSendOtp,
+  verifyOtp,
+  isVerificationTokenValid,
+} = require('./services/otpService');
 
 dotenv.config();
 
@@ -62,6 +67,71 @@ app.get('/api/students/sample', (req, res) => {
   res.json({
     samples: getSamplePids(),
   });
+});
+
+// Send OTP to College Email for verification
+app.post('/api/otp/send', async (req, res) => {
+  try {
+    const { pid, email } = req.body;
+    if (!pid || !pid.trim()) {
+      return res.status(400).json({ success: false, error: 'Student PID is required.' });
+    }
+    if (!email || !email.trim()) {
+      return res.status(400).json({ success: false, error: 'College Email ID is required.' });
+    }
+
+    const cleanPid = pid.trim().toUpperCase();
+    const cleanEmail = email.trim().toLowerCase();
+
+    // Verify student exists in database
+    const student = await findStudentByPid(cleanPid);
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        error: `Student with PID "${cleanPid}" was not found. Please enter a valid PID.`,
+      });
+    }
+
+    const otpResult = createAndSendOtp(cleanPid, cleanEmail);
+    return res.json({
+      success: true,
+      studentName: student.name,
+      ...otpResult,
+    });
+  } catch (err) {
+    console.error('Error sending OTP:', err);
+    return res.status(500).json({ success: false, error: 'Failed to send OTP. Please try again.' });
+  }
+});
+
+// Verify OTP submitted by student
+app.post('/api/otp/verify', async (req, res) => {
+  try {
+    const { pid, email, otp } = req.body;
+    if (!pid || !otp) {
+      return res.status(400).json({ success: false, error: 'PID and 6-digit OTP are required.' });
+    }
+
+    const cleanPid = pid.trim().toUpperCase();
+    const verifyResult = verifyOtp(cleanPid, email, otp);
+
+    if (!verifyResult.success) {
+      return res.status(400).json(verifyResult);
+    }
+
+    const student = await findStudentByPid(cleanPid);
+    const quota = await getMonthlyQuotaInfo(cleanPid);
+
+    return res.json({
+      success: true,
+      student,
+      quota,
+      ...verifyResult,
+    });
+  } catch (err) {
+    console.error('Error verifying OTP:', err);
+    return res.status(500).json({ success: false, error: 'Internal server error while verifying OTP.' });
+  }
 });
 
 // Check Monthly Quota for a PID

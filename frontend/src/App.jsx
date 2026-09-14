@@ -59,7 +59,7 @@ export default function App() {
     }
   };
 
-  const handleGenerate = async (pid, merchantOrderId = null) => {
+  const handleGenerate = async (pid, merchantOrderId = null, verificationToken = null) => {
     if (!pid || !pid.trim()) return;
     const cleanPid = pid.trim().toUpperCase();
 
@@ -70,6 +70,9 @@ export default function App() {
       const payload = { pid: cleanPid };
       if (merchantOrderId) {
         payload.merchantOrderId = merchantOrderId;
+      }
+      if (verificationToken) {
+        payload.verificationToken = verificationToken;
       }
 
       const res = await fetch('/api/students/generate', {
